@@ -10,7 +10,7 @@ import model.User;
 
 public class UserRepositoryMock implements UserRepository {
 
-	private List<User> users;
+	private static List<User> users;
 
 	public UserRepositoryMock() {
 		users = new ArrayList<>();
@@ -50,14 +50,18 @@ public class UserRepositoryMock implements UserRepository {
 	 */
 	public User findUser(String username, String password) {
 
+		System.out.println(users.size());
+		
 		Optional<User> found = users.stream().
 				filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
 				.findFirst();
 		
 		if (found.isPresent()) {
+			System.out.println("user found");
 			return found.get();
 		}
 		else {
+			System.out.println("user not found");
 			return null;
 		}
 		
@@ -79,6 +83,12 @@ public class UserRepositoryMock implements UserRepository {
 		user.setUsername(username);
 		user.setPassword(password);
 		users.add(user);
+		
+		System.out.println(user.getUsername());
+		System.out.println(user.getPassword());
+		
+		System.out.println("users: " + users.size());
+		
 		return user;
 
 	}
